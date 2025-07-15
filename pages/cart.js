@@ -5,7 +5,7 @@ import Layout from '../components/layout'
 import Navbar from '../components/navbar'
 import CartDetail from '../components/order/detail'
 import CompleteFormModal from '../components/order/form-modal'
-import { completeCurrentOrder, getCart } from '../data/orders'
+import { completeCurrentOrder, getCart, deleteCart } from '../data/orders'
 import { getPaymentTypes } from '../data/payment-types'
 import { removeProductFromOrder } from '../data/products'
 
@@ -40,6 +40,14 @@ export default function Cart() {
     removeProductFromOrder(productId).then(refresh)
   }
 
+  const deleteEntireCart = () => {
+    deleteCart().then(() => {
+      setCart({})
+      // Optionally redirect to products page or show a message
+      router.push('/products')
+    })
+  }
+
   return (
     <>
       <CompleteFormModal
@@ -52,7 +60,7 @@ export default function Cart() {
         <CartDetail cart={cart} removeProduct={removeProduct} />
         <>
           <a className="card-footer-item" onClick={() => setShowCompleteForm(true)}>Complete Order</a>
-          <a className="card-footer-item">Delete Order</a>
+          <a className="card-footer-item" onClick={deleteEntireCart}>Delete Order</a>
         </>
       </CardLayout>
     </>
