@@ -43,7 +43,8 @@ export default function Payments() {
             payments.map(payment => (
               <tr key={payment.id}>
                 <td>{payment.merchant_name}</td>
-                <td>{payment.obscured_num}</td>
+                <td>{payment.account_number}</td>
+                <td>{payment.expiration_date}</td>
                 <td>
                   <span className="icon is-clickable" onClick={() => removePayment(payment.id)}>
                     <i className="fas fa-trash"></i>
