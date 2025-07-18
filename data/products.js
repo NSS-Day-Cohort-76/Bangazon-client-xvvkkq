@@ -77,7 +77,7 @@ export function addProduct(product) {
       Authorization: `Token ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(product)
+    body: JSON.stringify(product) 
   })
 }
 
