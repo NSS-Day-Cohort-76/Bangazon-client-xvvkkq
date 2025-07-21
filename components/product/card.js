@@ -31,7 +31,7 @@ export function ProductCard({ product, removeProduct, isOwner = false, width = "
     <div className={`column ${width}`}>
       <div className="card">
         <div className="card-image">
-          <figure className="image is-4by3">
+          <figure className="image is-3by2">
             {imgSrc ? (
               <Image
                 src={imgSrc}
