@@ -3,6 +3,7 @@ import { useState, useRef } from "react"
 import { addProductToOrder, recommendProduct } from "../../data/products"
 import Modal from "../modal"
 import { Input } from "../form-elements"
+import Image from "next/image"
 
 export function Detail({ product, like, unlike }) {
   const router = useRouter()
@@ -45,9 +46,19 @@ export function Detail({ product, like, unlike }) {
       <div className="tile is-ancestor">
         <div className="tile is-parent">
           <article className="tile is-child">
-            <figure className="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png"></img>
-            </figure>
+            {product.image_path ? (
+  <figure className="image is-4by3" style={{ position: "relative", width: "100%", height: "auto" }}>
+     <Image
+                src={product.image_path}
+                alt={product.name}
+                width={640}
+                height={480}
+                unoptimized
+              />
+  </figure>
+) : (
+  <p>No image available</p> // Or a placeholder component/image
+)}
           </article>
         </div>
         <div className="tile is-parent is-vertical ">
