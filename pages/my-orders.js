@@ -23,6 +23,7 @@ export default function Orders() {
         <Table headers={headers}>
           {
             orders.map((order) => (
+              
               <tr key={order.id}>
                 <td>{order.created_date}</td>
                 <td>${order.total}</td>
