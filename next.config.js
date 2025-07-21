@@ -1,10 +1,20 @@
-// next.config.js
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost'], // Add any other domains as needed
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000', // add port if needed
+        pathname: '/**',
+      },
+    ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

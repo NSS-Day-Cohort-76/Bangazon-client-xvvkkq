@@ -48,14 +48,13 @@ export function Detail({ product, like, unlike }) {
           <article className="tile is-child">
             {product.image_path ? (
   <figure className="image is-4by3" style={{ position: "relative", width: "100%", height: "auto" }}>
-    <Image
-      src={`http://localhost:8000/media/${product.image_path}`}
-      alt={product.name}
-      layout="responsive"
-      width={640}
-      height={480}
-      objectFit="cover"
-    />
+     <Image
+                src={product.image_path}
+                alt={product.name}
+                width={640}
+                height={480}
+                unoptimized
+              />
   </figure>
 ) : (
   <p>No image available</p> // Or a placeholder component/image
