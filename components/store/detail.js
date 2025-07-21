@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 export default function Detail({ store, isOwner, favorite, unfavorite }) {
+  console.log(isOwner)
   const ownerButtons = () => {
     return (
       <div className="buttons">
