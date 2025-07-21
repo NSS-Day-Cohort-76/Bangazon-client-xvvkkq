@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const BACKEND_URL = 'http://localhost:8000'
 
-function fixEncodedUrl(url) {
+export function fixEncodedUrl(url) {
   if (url.startsWith(`${BACKEND_URL}/media/https%3A`)) {
     try {
       const encodedPart = url.replace(`${BACKEND_URL}/media/`, '')

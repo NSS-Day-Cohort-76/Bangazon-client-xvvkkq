@@ -11,6 +11,7 @@ export function Detail({ product, like, unlike }) {
   const [showModal, setShowModal] = useState(false)
   const [showError, setShowError] = useState(false)
 
+  
 
   const addToCart = () => {
     addProductToOrder(product.id).then(() => {
@@ -47,18 +48,22 @@ export function Detail({ product, like, unlike }) {
         <div className="tile is-parent">
           <article className="tile is-child">
             {product.image_path ? (
-  <figure className="image is-4by3" style={{ position: "relative", width: "100%", height: "auto" }}>
-     <Image
-                src={product.image_path}
-                alt={product.name}
-                width={640}
-                height={480}
-                unoptimized
-              />
-  </figure>
-) : (
-  <p>No image available</p> // Or a placeholder component/image
-)}
+              <figure className="image is-4by3" style={{ position: "relative", width: "100%", height: "auto" }}>
+                {imgSrc ? (
+                  <Image
+                    src={imgSrc}
+                    alt={product.name}
+                    width={640}
+                    height={480}
+                    unoptimized={imgSrc.startsWith('http')}
+                  />
+                ) : (
+                  <div>No Image Available</div>
+                )}
+              </figure>
+            ) : (
+              <div>No Image Available</div>
+            )}
           </article>
         </div>
         <div className="tile is-parent is-vertical ">
