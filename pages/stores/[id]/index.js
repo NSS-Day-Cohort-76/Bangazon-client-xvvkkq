@@ -12,34 +12,35 @@ export default function StoreDetail() {
   const { profile } = useAppContext()
   const router = useRouter()
   const { id } = router.query
+
   const [store, setStore] = useState({})
   const [isOwner, setIsOwner] = useState(false)
 
-  console.log(profile)
-
   useEffect(() => {
-    const numericId = Number(id)
-
-    if (id) {
-      refresh()
-    }
-
-    if (profile?.store?.id && numericId === profile.store.id) {
-      setIsOwner(true)
-    } else {
-      setIsOwner(false)
+    if (id && profile?.id) {
+      getStoreById(id).then(storeData => {
+        if (storeData) {
+          setStore(storeData)
+          setIsOwner(storeData?.seller?.id === profile.user.id)
+          
+          console.log("DEBUG:")
+          console.log("  Router ID:", id)
+          console.log(profile)
+          console.log("  Logged-in User ID:", profile.user.id)
+          console.log("  Store Seller ID:", storeData?.seller?.id)
+          console.log("  Is owner?", storeData?.seller?.id === profile.id)
+        }
+      })
     }
   }, [id, profile])
 
-console.log("Router ID:", id)
-console.log("Profile store ID:", profile.store?.id)
-console.log("Is owner?", isOwner)
-
-  const refresh = () => getStoreById(id).then(storeData => {
-    if (storeData) {
-      setStore(storeData)
-    }
-  })
+  const refresh = () => {
+    getStoreById(id).then(storeData => {
+      if (storeData) {
+        setStore(storeData)
+      }
+    })
+  }
 
   const removeProduct = (productId) => {
     deleteProduct(productId).then(refresh)
@@ -55,23 +56,27 @@ console.log("Is owner?", isOwner)
 
   return (
     <>
-      <Detail store={store} isOwner={isOwner} favorite={favorite} unfavorite={unfavorite} />
+      <Detail
+        store={store}
+        isOwner={isOwner}
+        favorite={favorite}
+        unfavorite={unfavorite}
+      />
+
       <div className="columns is-multiline">
         {
-          store.products?.map(product => (
-            <ProductCard
-              product={product}
-              key={product.id}
-              isOwner={isOwner}
-              removeProduct={removeProduct}
-            />
-          ))
-        }
-        {
-          store.products?.length === 0 ?
+          store.products?.length > 0 ? (
+            store.products.map(product => (
+              <ProductCard
+                product={product}
+                key={product.id}
+                isOwner={isOwner}
+                removeProduct={removeProduct}
+              />
+            ))
+          ) : (
             <p>There's no products yet</p>
-            :
-            <></>
+          )
         }
       </div>
     </>
