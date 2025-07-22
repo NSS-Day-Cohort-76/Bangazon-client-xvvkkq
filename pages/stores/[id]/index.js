@@ -21,14 +21,7 @@ export default function StoreDetail() {
       getStoreById(id).then(storeData => {
         if (storeData) {
           setStore(storeData)
-          setIsOwner(storeData?.seller?.id === profile.user.id)
-          
-          console.log("DEBUG:")
-          console.log("  Router ID:", id)
-          console.log(profile)
-          console.log("  Logged-in User ID:", profile.user.id)
-          console.log("  Store Seller ID:", storeData?.seller?.id)
-          console.log("  Is owner?", storeData?.seller?.id === profile.id)
+          setIsOwner(storeData?.seller?.id === profile.user.id)  
         }
       })
     }
