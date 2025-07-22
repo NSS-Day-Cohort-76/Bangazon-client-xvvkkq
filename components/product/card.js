@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const BACKEND_URL = 'http://localhost:8000'
 
-function fixEncodedUrl(url) {
+export function fixEncodedUrl(url) {
   if (url.startsWith(`${BACKEND_URL}/media/https%3A`)) {
     try {
       const encodedPart = url.replace(`${BACKEND_URL}/media/`, '')
@@ -31,7 +31,7 @@ export function ProductCard({ product, removeProduct, isOwner = false, width = "
     <div className={`column ${width}`}>
       <div className="card">
         <div className="card-image">
-          <figure className="image is-4by3">
+          <figure className="image is-3by2">
             {imgSrc ? (
               <Image
                 src={imgSrc}
