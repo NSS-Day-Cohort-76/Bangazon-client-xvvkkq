@@ -3,13 +3,14 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
-import { getProducts } from "../../data/products";
+import { getCategories, getProducts } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     getProducts()
@@ -35,6 +36,30 @@ export default function Products() {
       });
   }, []);
 
+  useEffect(() => {
+    getCategories().then((data) => {
+      if (data) {
+        setCategories(data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getRecentProductsByCategory()
+      .then((data) => {
+        if (data) {
+          setCategoriesWithProducts(data);
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setLoadingMessage(
+          `Unable to retrieve recent products. Status code ${err.message} on response.`
+        );
+        setIsLoading(false);
+      });
+  }, []);
+
   const searchProducts = useCallback((event) => {
     getProducts(event).then((productsData) => {
       if (productsData) {
@@ -52,6 +77,30 @@ export default function Products() {
         onSearch={searchProducts}
         locations={locations}
       />
+      
+      <div className="columns is-multiline">
+        {categories.map((category) => {
+          const categoryProducts = products
+            .filter((product) => product.category_id === category.id)
+            .slice(-5)
+
+          return (
+            <div className="column is-half" key={category.id}>
+              <div className="box has-text-centered">
+                <strong>{category.name}</strong>
+              </div>
+              {categoryProducts.length > 0 ? (
+                categoryProducts.map((product) => (
+                  <ProductCard product={product} key={product.id} />
+                ))
+              ) : (
+                <p className="has-text-centered is-italic">No products in category</p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
 
       <div className="columns is-multiline">
         {products.map((product) => (

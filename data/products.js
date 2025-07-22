@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
 
 export function getProducts(query=undefined) {
@@ -16,6 +17,14 @@ export function getProducts(query=undefined) {
 
 export function getCategories() {
   return fetchWithResponse('categories', {
+    headers: {
+      Authorization: `Token ${localStorage.getItem('token')}`
+    }
+  })
+}
+
+export function getRecentProductsByCategory() {
+  return fetchWithResponse('productscategories?incluede_recent_products=true', {
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
     }
