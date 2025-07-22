@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
 
 export function getProducts(query=undefined) {

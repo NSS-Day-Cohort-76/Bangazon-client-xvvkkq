@@ -4,6 +4,7 @@ import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
 import { getCategories, getProducts } from "../../data/products";
+import { getRecentProductsByCategory } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -80,9 +81,8 @@ export default function Products() {
       
       <div className="columns is-multiline">
         {categories.map((category) => {
-          const categoryProducts = products
-            .filter((product) => product.category_id === category.id)
-            .slice(-5)
+          const categoryProducts = getCategories
+          
 
           return (
             <div className="column is-half" key={category.id}>
