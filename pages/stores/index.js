@@ -23,21 +23,17 @@ export default function Stores() {
     <>
       <h1 className="title">Stores</h1>
 
-      <div className="columns is-multiline">
-        {stores.map(store => (
-          <div key={store.id} className="column is-full">
-            <StoreCard store={store} />
+      {stores.map(store => (
+        <div key={store.id} className="mb-6 ">
+          <StoreCard store={store} />
 
-            <div className="columns is-multiline mt-4">
-              {store.products.map(product => (
-                <div className="column is-one-quarter" key={product.id}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
+          <div className="columns is-multiline mt-4">
+            {store.products.map(product => (
+              <ProductCard product={product} key={product.id} />
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </>
   )
 }
