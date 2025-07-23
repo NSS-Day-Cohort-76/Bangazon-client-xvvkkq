@@ -84,7 +84,9 @@ export default function Products() {
         onSearch={searchProducts}
         locations={locations}
       />
-
+      if(showFilters){
+        
+      }
       <div className="columns is-multiline">
         {categories.map((category) => {
           const categoryProducts = productsByCategory[category.id] || [];
@@ -99,7 +101,7 @@ export default function Products() {
               <div className="columns is-multiline">
                 {categoryProducts.length > 0 ? (
                   categoryProducts.map((product) => (
-                    <ProductCard product={product} key={product.id} width="is-one-quarter" />
+                    <ProductCard product={product} key={product.id} width="is-one-fifth" />
                   ))
                 ) : (
                   <p className="has-text-centered is-italic">No products in category</p>
