@@ -137,8 +137,8 @@ export function likeProduct(productId) {
   });
 }
 
-export function unLikeProduct(productId) {
-  return fetchWithoutResponse(`products/${productId}/unlike`, {
+export function unlikeProduct(productId) {
+  return fetchWithoutResponse(`products/${productId}/like`, {
     method: "DELETE",
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,
@@ -146,3 +146,4 @@ export function unLikeProduct(productId) {
     },
   });
 }
+
