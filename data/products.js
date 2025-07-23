@@ -111,6 +111,14 @@ export function getRecommendations() {
   });
 }
 
+export function getRecommendationsByMe() {
+  return fetchWithResponse("products/recommendations-by-me", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
+}
+
 export function likeProduct(productId) {
   return fetchWithoutResponse(`products/${productId}/like`, {
     method: "POST",
