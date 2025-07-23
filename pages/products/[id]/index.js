@@ -1,37 +1,34 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Layout from '../../../components/layout'
 import Navbar from '../../../components/navbar'
 import { Detail } from '../../../components/product/detail'
 import { Ratings } from '../../../components/rating/detail'
-import { getProductById, likeProduct, unLikeProduct } from '../../../data/products'
+import { getProductById, likeProduct, unlikeProduct } from '../../../data/products'
 
 export default function ProductDetail() {
   const router = useRouter()
   const { id } = router.query
   const [product, setProduct] = useState({})
 
-  const refresh = () => {
+  const refresh = useCallback(() => {
+    if (!id) return
     getProductById(id).then(productData => {
-      if (productData) {
-        setProduct(productData)
-      }
+      if (productData) setProduct(productData)
     })
-  }
+  }, [id])
 
-  const like = () => {
+  const like = useCallback(() => {
     likeProduct(id).then(refresh)
-  }
+  }, [id, refresh])
 
-  const unlike = () => {
-    unLikeProduct(id).then(refresh)
-  }
+  const unlike = useCallback(() => {
+    unlikeProduct(id).then(refresh)
+  }, [id, refresh])
 
   useEffect(() => {
-    if (id) {
-      refresh()
-    }
-  }, [id])
+    refresh()
+  }, [refresh])
 
   return (
     <div className="columns is-centered">
