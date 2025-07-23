@@ -3,8 +3,7 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
-import { getCategories, getProducts } from "../../data/products";
-import { getRecentProductsByCategory } from "../../data/products";
+import { getAllCategoriesWithRecentProducts, getCategories, getProducts } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -12,7 +11,8 @@ export default function Products() {
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([])
-
+  const [categoriesWithProducts, setCategoriesWithProducts] = useState([]);
+  const [productsByCategory, setProductsByCategory] = useState({});
   useEffect(() => {
     getProducts()
       .then((data) => {
@@ -46,10 +46,15 @@ export default function Products() {
   }, []);
 
   useEffect(() => {
-    getRecentProductsByCategory()
+    getAllCategoriesWithRecentProducts()
       .then((data) => {
         if (data) {
           setCategoriesWithProducts(data);
+          const grouped = {};
+          data.forEach(category => {
+            grouped[category.id] = category.products || [];
+          });
+          setProductsByCategory(grouped);
         }
         setIsLoading(false);
       })
@@ -60,6 +65,7 @@ export default function Products() {
         setIsLoading(false);
       });
   }, []);
+
 
   const searchProducts = useCallback((event) => {
     getProducts(event).then((productsData) => {
@@ -78,24 +84,27 @@ export default function Products() {
         onSearch={searchProducts}
         locations={locations}
       />
-      
+
       <div className="columns is-multiline">
         {categories.map((category) => {
-          const categoryProducts = getCategories
-          
+          const categoryProducts = productsByCategory[category.id] || [];
 
           return (
-            <div className="column is-half" key={category.id}>
+            <div className="column is-full" key={category.id}>
               <div className="box has-text-centered">
                 <strong>{category.name}</strong>
               </div>
-              {categoryProducts.length > 0 ? (
-                categoryProducts.map((product) => (
-                  <ProductCard product={product} key={product.id} />
-                ))
-              ) : (
-                <p className="has-text-centered is-italic">No products in category</p>
-              )}
+              <p className="has-text-centered">Latest Products</p>
+
+              <div className="columns is-multiline">
+                {categoryProducts.length > 0 ? (
+                  categoryProducts.map((product) => (
+                    <ProductCard product={product} key={product.id} width="is-one-quarter" />
+                  ))
+                ) : (
+                  <p className="has-text-centered is-italic">No products in category</p>
+                )}
+              </div>
             </div>
           );
         })}

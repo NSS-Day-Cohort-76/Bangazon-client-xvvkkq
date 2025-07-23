@@ -22,12 +22,12 @@ export function getCategories() {
   })
 }
 
-export function getRecentProductsByCategory() {
-  return fetchWithResponse('productscategories?incluede_recent_products=true', {
+export function getAllCategoriesWithRecentProducts() {
+  return fetchWithResponse('productcategories?include_recent_products=true', {
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
     }
-  })
+  });
 }
 
 export function getProductById(id) {
