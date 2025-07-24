@@ -3,13 +3,17 @@ import Filter from "../../components/filter";
 import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
-import { getProducts } from "../../data/products";
+import { getAllCategoriesWithRecentProducts, getCategories, getProducts } from "../../data/products";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Loading products...");
   const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [categoriesWithProducts, setCategoriesWithProducts] = useState([]);
+  const [productsByCategory, setProductsByCategory] = useState({});
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     getProducts()
@@ -35,6 +39,36 @@ export default function Products() {
       });
   }, []);
 
+  useEffect(() => {
+    getCategories().then((data) => {
+      if (data) {
+        setCategories(data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllCategoriesWithRecentProducts()
+      .then((data) => {
+        if (data) {
+          setCategoriesWithProducts(data);
+          const grouped = {};
+          data.forEach(category => {
+            grouped[category.id] = category.products || [];
+          });
+          setProductsByCategory(grouped);
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setLoadingMessage(
+          `Unable to retrieve recent products. Status code ${err.message} on response.`
+        );
+        setIsLoading(false);
+      });
+  }, []);
+
+
   const searchProducts = useCallback((event) => {
     getProducts(event).then((productsData) => {
       if (productsData) {
@@ -51,9 +85,54 @@ export default function Products() {
         productCount={products.length}
         onSearch={searchProducts}
         locations={locations}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
       />
+      {!showFilters && (
+        <div className="columns is-multiline">
+          {categories.map((category) => {
+            const categoryProducts = productsByCategory[category.id] || [];
+
+            return (
+              <div className="column is-full" key={category.id}>
+                <div className="box has-text-centered has-background-warning-light">
+                  <h2 className="title is-4"><strong>{category.name}</strong></h2>
+                </div>
+                <h3 className="title is-5 has-text-centered ">Latest Products</h3>
+
+                <div className="columns is-multiline has-background-grey-lighter">
+                  {categoryProducts.length > 0 ? (
+                    categoryProducts.map((product) => (
+                      <ProductCard product={product} key={product.id} width="is-one-fifth" />
+                    ))
+                  ) : (
+                    <div className="block">
+                      <h3 className=" title has-text-centered is-italic is-4">No products in category</h3>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
 
       <div className="columns is-multiline">
+        {showFilters && (
+          <div className="column is-full">
+            <div className="box has-text-centered is-full has-background-warning-light">
+              <h2 className="title is-4"><strong>Filtered Products</strong></h2>
+            </div>
+          </div>)}
+        {!showFilters && (
+          <div className="column is-full">
+            <div className="box has-text-centered is-full has-background-warning-light">
+              <h2 className="title is-4"><strong>All Products</strong></h2>
+            </div>
+          </div>)}
+
+
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />
         ))}
