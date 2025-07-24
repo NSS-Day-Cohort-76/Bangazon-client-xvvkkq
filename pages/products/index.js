@@ -13,6 +13,8 @@ export default function Products() {
   const [categories, setCategories] = useState([])
   const [categoriesWithProducts, setCategoriesWithProducts] = useState([]);
   const [productsByCategory, setProductsByCategory] = useState({});
+  const [showFilters, setShowFilters] = useState(false);
+
   useEffect(() => {
     getProducts()
       .then((data) => {
@@ -83,37 +85,54 @@ export default function Products() {
         productCount={products.length}
         onSearch={searchProducts}
         locations={locations}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
       />
-      if(showFilters){
-        
-      }
+      {!showFilters && (
+        <div className="columns is-multiline">
+          {categories.map((category) => {
+            const categoryProducts = productsByCategory[category.id] || [];
+
+            return (
+              <div className="column is-full" key={category.id}>
+                <div className="box has-text-centered has-background-warning-light">
+                  <h2 className="title is-4"><strong>{category.name}</strong></h2>
+                </div>
+                <h3 className="title is-5 has-text-centered ">Latest Products</h3>
+
+                <div className="columns is-multiline has-background-grey-lighter">
+                  {categoryProducts.length > 0 ? (
+                    categoryProducts.map((product) => (
+                      <ProductCard product={product} key={product.id} width="is-one-fifth" />
+                    ))
+                  ) : (
+                    <div className="block">
+                      <h3 className=" title has-text-centered is-italic is-4">No products in category</h3>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+
       <div className="columns is-multiline">
-        {categories.map((category) => {
-          const categoryProducts = productsByCategory[category.id] || [];
-
-          return (
-            <div className="column is-full" key={category.id}>
-              <div className="box has-text-centered">
-                <strong>{category.name}</strong>
-              </div>
-              <p className="has-text-centered">Latest Products</p>
-
-              <div className="columns is-multiline">
-                {categoryProducts.length > 0 ? (
-                  categoryProducts.map((product) => (
-                    <ProductCard product={product} key={product.id} width="is-one-fifth" />
-                  ))
-                ) : (
-                  <p className="has-text-centered is-italic">No products in category</p>
-                )}
-              </div>
+        {showFilters && (
+          <div className="column is-full">
+            <div className="box has-text-centered is-full has-background-warning-light">
+              <h2 className="title is-4"><strong>Filtered Products</strong></h2>
             </div>
-          );
-        })}
-      </div>
+          </div>)}
+        {!showFilters && (
+          <div className="column is-full">
+            <div className="box has-text-centered is-full has-background-warning-light">
+              <h2 className="title is-4"><strong>All Products</strong></h2>
+            </div>
+          </div>)}
 
 
-      <div className="columns is-multiline">
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />
         ))}
