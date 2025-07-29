@@ -8,7 +8,7 @@ export default function Layout({ children }) {
         <Head>
           <title>Bangazon</title>
         </Head>
-        <main className="container">{children}</main>
+        <main className="container mt-6">{children}</main>
       </>
     </AppWrapper>
   )

@@ -2,10 +2,11 @@
 @import "bulma/css/bulma.min.css";
 
 body {
-    padding-top: 4.5rem;
+    margin-top: 4rem !important;
+    padding-top: 4rem;
 }
 
 .navbar.is-top {
     z-index: 35;
+    margin-bottom: 3rem;
 }
-
