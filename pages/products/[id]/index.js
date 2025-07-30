@@ -31,8 +31,8 @@ export default function ProductDetail() {
   }, [refresh])
 
   return (
-    <div className="columns is-centered">
-      <div className="column">
+    <div className="columns is-centered mt-5">
+      <div className="column mt-5">
         <Detail product={product} like={like} unlike={unlike}/>
         <Ratings
           refresh={refresh}

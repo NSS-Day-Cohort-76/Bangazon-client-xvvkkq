@@ -4,6 +4,7 @@ import Layout from "../../components/layout";
 import Navbar from "../../components/navbar";
 import { ProductCard } from "../../components/product/card";
 import { getAllCategoriesWithRecentProducts, getCategories, getProducts } from "../../data/products";
+import Link from "next/link";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -98,7 +99,7 @@ export default function Products() {
                 <div className="box has-text-centered has-background-warning-light">
                   <h2 className="title is-4"><strong>{category.name}</strong></h2>
                 </div>
-                <h3 className="title is-5 has-text-centered ">Latest Products</h3>
+                <h3 className="title is-5 ">Recently Listed</h3>
 
                 <div className="columns is-multiline has-background-grey-lighter">
                   {categoryProducts.length > 0 ? (
@@ -106,8 +107,10 @@ export default function Products() {
                       <ProductCard product={product} key={product.id} width="is-one-fifth" />
                     ))
                   ) : (
-                    <div className="block">
-                      <h3 className=" title has-text-centered is-italic is-4">No products in category</h3>
+                    <div className="block p-3 is-centered">
+            
+                      
+                      <h3 className=" title is-italic is-4 has-text-centered  p-3">No products in category</h3>
                     </div>
                   )}
                 </div>
