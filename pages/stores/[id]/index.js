@@ -56,7 +56,7 @@ export default function StoreDetail() {
         unfavorite={unfavorite}
       />
 
-      <div className="columns is-multiline">
+      <div className="columns is-multiline mt-6">
         {
           store.products?.length > 0 ? (
             store.products.map(product => (
