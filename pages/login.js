@@ -15,6 +15,10 @@ export default function Login() {
 
   const submit = (e) => {
     e.preventDefault()
+    
+    console.log("username.current.value:", username.current?.value)
+    console.log("password.current.value:", password.current?.value)
+    
     const user = {
       username: username.current.value,
       password: password.current.value,
