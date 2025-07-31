@@ -1,122 +1,149 @@
-import { fetchWithResponse, fetchWithoutResponse } from './fetcher'
+import { fetchWithResponse, fetchWithoutResponse } from "./fetcher";
 
-export function getProducts(query=undefined) {
-  let url = 'products'
+export function getProducts(query = undefined) {
+  let url = "products";
 
   if (query) {
-    url += `?${query}`
+    url += `?${query}`;
   }
 
   return fetchWithResponse(url, {
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
-  })
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function getCategories() {
-  return fetchWithResponse('categories', {
+  return fetchWithResponse("categories", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
+}
+
+export function getAllCategoriesWithRecentProducts() {
+  return fetchWithResponse('productcategories?include_recent_products=true', {
     headers: {
       Authorization: `Token ${localStorage.getItem('token')}`
     }
-  })
+  });
 }
 
 export function getProductById(id) {
   return fetchWithResponse(`products/${id}`, {
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
-  })
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function addProductToOrder(id) {
-  return fetchWithResponse(`products/${id}/add_to_order`, {
-    method: 'POST',
+  return fetchWithResponse(`profile/cart`, {
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
-  })
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ product_id: id }),
+  });
 }
 
 export function removeProductFromOrder(id) {
-  return fetchWithoutResponse(`products/${id}/remove-from-order`, {
-    method: 'DELETE',
+  return fetchWithoutResponse(`profile/cart/${id}`, {
+    method: "DELETE",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
-  })
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function deleteProduct(id) {
   return fetchWithoutResponse(`products/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`
-    }
-  })
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function rateProduct(productId, rating) {
   return fetchWithResponse(`products/${productId}/rate-product`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(rating)
-  })
+    body: JSON.stringify(rating),
+  });
 }
 
 export function addProduct(product) {
   return fetchWithResponse(`products`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(product)
-  })
+    body: JSON.stringify(product),
+  });
 }
 
 export function editProduct(id, product) {
   return fetchWithoutResponse(`products/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(product)
-  })
+    body: JSON.stringify(product),
+  });
 }
 
 export function recommendProduct(id, username) {
   return fetchWithResponse(`products/${id}/recommend`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({username})
-  })
+    body: JSON.stringify({ username }),
+  });
+}
+
+export function getRecommendations() {
+  return fetchWithResponse("products/recommendations", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
+}
+
+export function getRecommendationsByMe() {
+  return fetchWithResponse("products/recommendations-by-me", {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function likeProduct(productId) {
   return fetchWithoutResponse(`products/${productId}/like`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-  })
+  });
 }
 
-export function unLikeProduct(productId) {
-  return fetchWithoutResponse(`products/${productId}/unlike`, {
-    method: 'DELETE',
+export function unlikeProduct(productId) {
+  return fetchWithoutResponse(`products/${productId}/like`, {
+    method: "DELETE",
     headers: {
-      Authorization: `Token ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      Authorization: `Token ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
     },
-  })
+  });
 }
+

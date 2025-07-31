@@ -3,10 +3,13 @@ import Layout from '../../components/layout'
 import Navbar from '../../components/navbar'
 import { StoreCard } from '../../components/store/card'
 import { getStores } from '../../data/stores'
+import { ProductCard } from '../../components/product/card'
+import { getProducts } from '../../data/products'
 
 
 export default function Stores() {
   const [stores, setStores] = useState([])
+  const [product, setProduct] = useState([])
 
   useEffect(() => {
     getStores().then(data => {
@@ -19,13 +22,18 @@ export default function Stores() {
   return (
     <>
       <h1 className="title">Stores</h1>
-      <div className="columns is-multiline">
-      {
-        stores.map(store => (
-          <StoreCard store={store} key={store.id} />
-        ))
-      }
-      </div>
+
+      {stores.map(store => (
+        <div key={store.id} className="mb-6 ">
+          <StoreCard store={store} />
+
+          <div className="columns is-multiline mt-4">
+            {store.products.map(product => (
+              <ProductCard product={product} key={product.id} />
+            ))}
+          </div>
+        </div>
+      ))}
     </>
   )
 }

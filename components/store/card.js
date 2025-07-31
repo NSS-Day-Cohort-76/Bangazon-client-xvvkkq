@@ -14,7 +14,8 @@ export function StoreCard({ store, width= "is-half" }) {
             Owner: {store.seller.first_name} {store.seller.last_name}
           </p>
           <div className="content">
-            {store.description}
+            <p>{store.description}</p>
+            <p><strong>Products for sale:</strong>{store.products.length}</p>
           </div>
         </div>
         <footer className="card-footer">
