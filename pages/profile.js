@@ -9,7 +9,7 @@ import { getUserProfile } from "../data/auth";
 import {
   getRecommendations,
   getRecommendationsByMe,
-} from "../data/products.js";
+} from "../data/products";
 
 export default function Profile() {
   const { profile, setProfile } = useAppContext();
