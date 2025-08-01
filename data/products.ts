@@ -1,6 +1,7 @@
 import { fetchWithResponse, fetchWithoutResponse } from "./fetcher";
+import { Product } from "../types";
 
-export function getProducts(query = undefined) {
+export function getProducts(query?: string): Promise<Product[]> {
   let url = "products";
 
   if (query) {
