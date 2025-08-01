@@ -35,6 +35,7 @@ export default function Filter({ productCount, onSearch, locations, showFilters,
         refEls[ref].current.value = 0;
       }
     }
+    setQuery("")
     onSearch("");
   };
   const orderByOptions = [
@@ -60,9 +61,7 @@ export default function Filter({ productCount, onSearch, locations, showFilters,
   ];
 
   useEffect(() => {
-    if (query) {
       onSearch(query);
-    }
   }, [query, onSearch]);
 
   const buildQuery = (key, value) => {
