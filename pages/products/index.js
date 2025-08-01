@@ -100,22 +100,19 @@ export default function Products() {
             return (
               
               <div className="column is-full" key={category.id}>
-                <p><strong>showFilters:</strong> {showFilters ? "true" : "false"}</p>
                 <div className="box has-text-centered has-background-warning-light">
                   <h2 className="title is-4"><strong>{category.name}</strong></h2>
                 </div>
                 <h3 className="title is-5 ">Recently Listed</h3>
 
-                <div className="columns is-multiline ">
+                <div className="columns is-multiline has-background-grey-lighter">
                   {categoryProducts.length > 0 ? (
                     categoryProducts.map((product) => (
                       <ProductCard product={product} key={product.id} width="is-one-fifth" />
                     ))
                   ) : (
                     <div className="block p-3 is-centered">
-            
-                      <p>slay</p>
-                      <h3 className=" title is-italic is-4 has-text-centered  p-3">No products in category</h3>
+                      <h3 className=" title is-italic is-4 has-text-centered p-3">No products in category</h3>
                     </div>
                   )}
                 </div>
