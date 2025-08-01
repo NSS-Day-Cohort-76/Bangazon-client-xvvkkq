@@ -5,19 +5,26 @@ import { StoreCard } from '../../components/store/card'
 import { getStores } from '../../data/stores'
 import { ProductCard } from '../../components/product/card'
 import { getProducts } from '../../data/products'
+import { useQuery } from '@tanstack/react-query'
 
 
 export default function Stores() {
-  const [stores, setStores] = useState([])
-  const [product, setProduct] = useState([])
+  // const [stores, setStores] = useState([])
+  // const [product, setProduct] = useState([])
 
-  useEffect(() => {
-    getStores().then(data => {
-      if (data) {
-        setStores(data)
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   getStores().then(data => {
+  //     if (data) {
+  //       setStores(data)
+  //     }
+  //   })
+  // }, [])
+  const {data: stores = [], isLoading, isError, error} = useQuery({
+    queryKey: ['stores'],
+    queryFn: getStores,
+  })
+  if (isLoading) return <p>Loading stores...</p>
+  if (isError) return <p>Error: {error.message}</p>
 
   return (
     <>
