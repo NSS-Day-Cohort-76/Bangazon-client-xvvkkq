@@ -70,10 +70,12 @@ export default function Products() {
   }, []);
 
 
-  const searchProducts = useCallback((event) => {
-    getProducts(event).then((productsData) => {
+  const searchProducts = useCallback((query) => {
+    getProducts(query).then((productsData) => {
       if (productsData) {
         setProducts(productsData);
+        const isFiltered = query && query.trim() !== ""
+        setShowFilters(isFiltered)
       }
     });
   }, []);
@@ -91,17 +93,20 @@ export default function Products() {
       />
       {!showFilters && (
         <div className="columns is-multiline">
+
           {categories.map((category) => {
             const categoryProducts = productsByCategory[category.id] || [];
 
             return (
+              
               <div className="column is-full" key={category.id}>
+                <p><strong>showFilters:</strong> {showFilters ? "true" : "false"}</p>
                 <div className="box has-text-centered has-background-warning-light">
                   <h2 className="title is-4"><strong>{category.name}</strong></h2>
                 </div>
                 <h3 className="title is-5 ">Recently Listed</h3>
 
-                <div className="columns is-multiline has-background-grey-lighter">
+                <div className="columns is-multiline ">
                   {categoryProducts.length > 0 ? (
                     categoryProducts.map((product) => (
                       <ProductCard product={product} key={product.id} width="is-one-fifth" />
@@ -109,7 +114,7 @@ export default function Products() {
                   ) : (
                     <div className="block p-3 is-centered">
             
-                      
+                      <p>slay</p>
                       <h3 className=" title is-italic is-4 has-text-centered  p-3">No products in category</h3>
                     </div>
                   )}
@@ -124,22 +129,18 @@ export default function Products() {
       <div className="columns is-multiline">
         {showFilters && (
           <div className="column is-full">
-            <div className="box has-text-centered is-full has-background-warning-light">
-              <h2 className="title is-4"><strong>Filtered Products</strong></h2>
-            </div>
-          </div>)}
-        {!showFilters && (
-          <div className="column is-full">
-            <div className="box has-text-centered is-full has-background-warning-light">
-              <h2 className="title is-4"><strong>All Products</strong></h2>
-            </div>
-          </div>)}
+  <div className="box has-text-centered is-full has-background-warning-light">
+    <h2 className="title is-4">
+      <strong>{showFilters ? "Filtered Products" : "All Products"}</strong>
+    </h2>
+  </div>
+</div>)}
 
 
         {products.map((product) => (
-          <ProductCard product={product} key={product.id} />
-        ))}
-      </div>
+      <ProductCard product={product} key={product.id} />
+    ))}
+  </div>
     </>
   );
 }
