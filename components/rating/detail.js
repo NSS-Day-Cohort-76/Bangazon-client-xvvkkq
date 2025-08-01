@@ -1,24 +1,32 @@
-import { useState, useEffect } from 'react'
-import { rateProduct } from '../../data/products'
-import { RatingsContainer } from './container'
-import { Header } from './header'
+import { rateProduct } from "../../data/products";
+import { RatingsContainer } from "./container";
+import { Header } from "./header";
 
-export function Ratings({ average_rating, refresh, ratings = [], number_purchased, likes = [] }) {
-  const [productId, setProductId] = useState(0)
+export function Ratings({
+  average_rating,
+  refresh,
+  productId,
+  ratings = [],
+  number_purchased,
+  likes = [],
+}) {
   const saveRating = (newRating) => {
-    rateProduct(productId, newRating).then(refresh)
-
-  }
-
-  useEffect(() => {
-    if (ratings.length) {
-      setProductId(ratings[0].product)
+    if (productId) {
+      console.log(
+        "Submitting rating for product:",
+        productId,
+        "Rating:",
+        newRating
+      );
+      rateProduct(productId, newRating).then(refresh);
+    } else {
+      console.error("No product ID available for rating");
     }
-  }, [ratings])
+  };
 
   return (
     <div className="tile is-ancestor is-flex-wrap-wrap">
-      <Header 
+      <Header
         averageRating={average_rating}
         ratingsLen={ratings.length}
         numberPurchased={number_purchased}
@@ -26,5 +34,5 @@ export function Ratings({ average_rating, refresh, ratings = [], number_purchase
       />
       <RatingsContainer ratings={ratings} saveRating={saveRating} />
     </div>
-  )
+  );
 }

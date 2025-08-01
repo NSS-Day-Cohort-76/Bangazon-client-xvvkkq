@@ -1,41 +1,46 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState, useCallback } from 'react'
-import Layout from '../../../components/layout'
-import Navbar from '../../../components/navbar'
-import { Detail } from '../../../components/product/detail'
-import { Ratings } from '../../../components/rating/detail'
-import { getProductById, likeProduct, unlikeProduct } from '../../../data/products'
+import { useRouter } from "next/router";
+import { useEffect, useState, useCallback } from "react";
+import Layout from "../../../components/layout";
+import Navbar from "../../../components/navbar";
+import { Detail } from "../../../components/product/detail";
+import { Ratings } from "../../../components/rating/detail";
+import {
+  getProductById,
+  likeProduct,
+  unlikeProduct,
+} from "../../../data/products";
 
 export default function ProductDetail() {
-  const router = useRouter()
-  const { id } = router.query
-  const [product, setProduct] = useState({})
+  const router = useRouter();
+  const { id } = router.query;
+  const [product, setProduct] = useState({});
 
   const refresh = useCallback(() => {
-    if (!id) return
-    getProductById(id).then(productData => {
-      if (productData) setProduct(productData)
-    })
-  }, [id])
+    if (!id) return;
+    getProductById(id).then((productData) => {
+      if (productData) setProduct(productData);
+    });
+  }, [id]);
 
   const like = useCallback(() => {
-    likeProduct(id).then(refresh)
-  }, [id, refresh])
+    likeProduct(id).then(refresh);
+  }, [id, refresh]);
 
   const unlike = useCallback(() => {
-    unlikeProduct(id).then(refresh)
-  }, [id, refresh])
+    unlikeProduct(id).then(refresh);
+  }, [id, refresh]);
 
   useEffect(() => {
-    refresh()
-  }, [refresh])
+    refresh();
+  }, [refresh]);
 
   return (
     <div className="columns is-centered mt-5">
       <div className="column mt-5">
-        <Detail product={product} like={like} unlike={unlike}/>
+        <Detail product={product} like={like} unlike={unlike} />
         <Ratings
           refresh={refresh}
+          productId={id}
           number_purchased={product.number_purchased}
           ratings={product.ratings}
           average_rating={product.average_rating}
@@ -43,7 +48,7 @@ export default function ProductDetail() {
         />
       </div>
     </div>
-  )
+  );
 }
 
 ProductDetail.getLayout = function getLayout(page) {
@@ -52,5 +57,5 @@ ProductDetail.getLayout = function getLayout(page) {
       <Navbar />
       {page}
     </Layout>
-  )
-}
+  );
+};
