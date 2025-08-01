@@ -40,6 +40,10 @@ export default function ProductForm({ formEl, saveEvent, title, router }) {
           label="Quantity"
           type="number"
         />
+        <Input
+          id="image_url"
+          label="Image URL"
+        />
       </form>
       <>
         <a className="card-footer-item" onClick={saveEvent}>Save</a>

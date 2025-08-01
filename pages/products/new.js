@@ -14,9 +14,10 @@ export default function NewProduct() {
       name: name.value,
       description: description.value,
       price: price.value,
-      categoryId: category.value,
+      category_id: category.value,
       location: location.value,
-      quantity: quantity.value
+      quantity: quantity.value,
+      image_url: image_url.value
     }
     addProduct(product).then((res) => router.push(`/products/${res.id}`))
   }
